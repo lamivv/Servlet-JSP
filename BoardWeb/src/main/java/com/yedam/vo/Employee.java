@@ -1,4 +1,4 @@
-package com.yedam;
+package com.yedam.vo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,12 +10,12 @@ import java.util.Date;
  입사일자(2021-12-12, ...)
  급여(300, 350, ...)
  */
-public class Employee {
-	private int empNo;
-	private String empName;
-	private String telNo;
-	private Date hireDate;
-	private int salary;
+public class Employee { // tbl_employees
+	private int empNo; // emp_no
+	private String empName; // emp_name
+	private String telNo; // tel_no
+	private Date hireDate; // hire_date
+	private int salary; // salary
 	
 	//생성자
 	public Employee() {}

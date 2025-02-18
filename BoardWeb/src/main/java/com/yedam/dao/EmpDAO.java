@@ -1,6 +1,7 @@
-package com.yedam;
+package com.yedam.dao;
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,31 +11,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmpDAO {
-	// Connection 객체
-	Connection getConnect() {
-		String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 오라클DB의 접속정보 // xe는 접속할 데이터베이스 이름
-		String user = "hr";
-		String password = "hr";
-		Connection conn = null;
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn = DriverManager.getConnection(url, user, password);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return conn;
-	} // end of Connection getConnect()
+import com.yedam.vo.Employee;
+
+public class EmpDAO extends DAO {
+	
 	
 	// 상세조회
 	public Employee selectEmp(int empNo) {
 		String query = "select * from tbl_employees " //
 				+ "where emp_no = ?";
 		try {
-			PreparedStatement stmt = getConnect().prepareStatement(query);
-			stmt.setInt(1, empNo); // 첫번째 ?에 매개값으로 들어온 empNo를 넣음
+			psmt = getConnect().prepareStatement(query);
+			psmt.setInt(1, empNo); // 첫번째 ?에 매개값으로 들어온 empNo를 넣음
 			
-			ResultSet rs = stmt.executeQuery(); // 조회
+			rs = psmt.executeQuery(); // 조회
 			if(rs.next()) { // 조회결과가 한 건 있으면 true
 				Employee emp = new Employee();
 				emp.setEmpNo(rs.getInt("emp_no")); // 칼럼값

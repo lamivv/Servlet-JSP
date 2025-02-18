@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+  <!-- addStudent.html -->
+  <h3>학생추가</h3>
+  <form action="addStudentServ" method="post"> 
+  <!-- method 기본값은 get방식 http Header의 정보를 읽어옴 -->
+  <!-- 특징 : 빠르지만 보낼 수 있는 데이터가 제한적이다 따로 인코딩할 필요 없이 처리가 된다 주소 표시줄에 전달되는 값이 노출된다-->
+  <!-- method post방식은 body의 정보를 읽어옴 -->
+  <!-- 보낼 수 있는 데이터가 무제한 문자열을 인코딩 하는 처리가 필요하다(속도 저하), 한글처리를 별도로 해야함, -->
+  <!-- 서블릿에 한글처리... -->
+    학생번호 : <input type="text" name="std_no"><br>
+    이름 : <input type="text" name="std_name"><br>
+    전화번호 : <input type="tel" name ="tel_no"><br>
+    주소 : <input type="text" name ="std_addr"><br>
+    <input type ="submit">
+    <input type ="reset">
+  </form>
+</body>
+</html>
