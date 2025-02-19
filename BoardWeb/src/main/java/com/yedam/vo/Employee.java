@@ -3,6 +3,12 @@ package com.yedam.vo;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 /*
  사원번호(1001, 1002, ...)
  사원이름(김땅콩, 김치즈, ...)
@@ -10,15 +16,17 @@ import java.util.Date;
  입사일자(2021-12-12, ...)
  급여(300, 350, ...)
  */
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor //기본생성자
+@AllArgsConstructor //필드에 있는 것들을 모두 매개값으로 받는 생성자
 public class Employee { // tbl_employees
 	private int empNo; // emp_no
 	private String empName; // emp_name
 	private String telNo; // tel_no
 	private Date hireDate; // hire_date
 	private int salary; // salary
-	
-	//생성자
-	public Employee() {}
 	
 	public Employee(int empNO, String empName, String telNo) {
 		this.empNo = empNO;
@@ -46,47 +54,5 @@ public class Employee { // tbl_employees
 		// -------------------------
 		// 1001 홍길동 000-0000   250
 		return empNo + " " + empName + " " + telNo + "   " + salary;
-	}
-	
-
-	// getter, setter
-	public int getEmpNo() {
-		return empNo;
-	}
-
-	public void setEmpNo(int empNo) {
-		this.empNo = empNo;
-	}
-
-	public String getEmpName() {
-		return empName;
-	}
-
-	public void setEmpName(String empName) {
-		this.empName = empName;
-	}
-
-	public String getTelNo() {
-		return telNo;
-	}
-
-	public void setTelNo(String telNo) {
-		this.telNo = telNo;
-	}
-
-	public Date getHireDate() {
-		return hireDate;
-	}
-
-	public void setHireDate(Date hireDate) {
-		this.hireDate = hireDate;
-	}
-
-	public int getSalary() {
-		return salary;
-	}
-
-	public void setSalary(int salary) {
-		this.salary = salary;
 	}
 } // end of class Employee
