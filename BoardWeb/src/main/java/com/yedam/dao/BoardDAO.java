@@ -12,6 +12,26 @@ import com.yedam.vo.BoardVO;
  Create, Read, Update, Delete
  */
 public class BoardDAO extends DAO {
+	
+	// 데이징의 처리를 위한 실제 데이터 건수
+	public int getTotalCount() {
+		String sql = "select count(1) from tbl_board";
+		
+		try {
+			psmt = getConnect().prepareStatement(sql);
+			rs = psmt.executeQuery(); // 쿼리문 실행
+			if (rs.next()) {
+				return rs.getInt(1); // 1 :  첫번째 칼럼이라는 뜻
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally { // 정상적으로 코드가 실행되었을 때도 실행 예외가 발생했을 때도 실행.. finally
+			disConnect();
+		}
+		return 0; 
+	}
+	
+	
 	// 글 조회수 증가
 	public void updateCount(int boardNo) {
 		String sql = "update tbl_board " + "   set    view_cnt = view_cnt + 1 " + "   where board_no = ?";
@@ -22,6 +42,8 @@ public class BoardDAO extends DAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally { // 정상적으로 코드가 실행되었을 때도 실행 예외가 발생했을 때도 실행.. finally
+			disConnect();
 		}
 	}
 
@@ -54,17 +76,27 @@ public class BoardDAO extends DAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally { // 정상적으로 코드가 실행되었을 때도 실행 예외가 발생했을 때도 실행.. finally
+			disConnect();
 		}
 		return null; // 조회결과없음
 	}
 
 	// 조회
-	public List<BoardVO> selectBoard() {
+	public List<BoardVO> selectBoard(int page) {
 		List<BoardVO> boardList = new ArrayList<>();
-		String qry = "select * from tbl_board order by board_no";
+		String qry = "select tbl_b.* " //
+				+ "   from (select rownum rn, tbl_a.* " //
+				+ "	        from (select board_no, title, content, writer, write_date, view_cnt " //
+				+ "	              from tbl_board " //
+				+ "	              order by board_no desc) tbl_a) tbl_b " //
+				+ "	  where tbl_b.rn >= (? - 1)* 5 + 1 " //
+				+ "	  and   tbl_b.rn <= ? * 5";
 
 		try {
 			psmt = getConnect().prepareStatement(qry);
+			psmt.setInt(1, page);
+			psmt.setInt(2, page);
 			rs = psmt.executeQuery();
 
 			while (rs.next()) {
@@ -80,9 +112,38 @@ public class BoardDAO extends DAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally { // 정상적으로 코드가 실행되었을 때도 실행 예외가 발생했을 때도 실행.. finally
+			disConnect();
 		}
 		return boardList;
 	} // end of selectBoard()
+
+//	public List<BoardVO> selectBoard() {
+//		List<BoardVO> boardList = new ArrayList<>();
+//		String qry = "select * from tbl_board order by board_no";
+//
+//		try {
+//			psmt = getConnect().prepareStatement(qry);
+//			rs = psmt.executeQuery();
+//
+//			while (rs.next()) {
+//				BoardVO boardl = new BoardVO();
+//				boardl.setBoardNo(rs.getInt("board_no"));
+//				boardl.setTitle(rs.getString("title"));
+//				boardl.setContent(rs.getString("content"));
+//				boardl.setWriter(rs.getString("writer"));
+//				boardl.setWriteDate(rs.getDate("write_date"));
+//				boardl.setViewCnt(rs.getInt("view_cnt"));
+//
+//				boardList.add(boardl);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally { // 정상적으로 코드가 실행되었을 때도 실행 예외가 발생했을 때도 실행.. finally
+//			disConnect();
+//		}
+//		return boardList;
+//	} // end of selectBoard()
 
 	// 추가
 	public boolean insertBoard(BoardVO board) {
@@ -99,12 +160,14 @@ public class BoardDAO extends DAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally { // 정상적으로 코드가 실행되었을 때도 실행 예외가 발생했을 때도 실행.. finally
+			disConnect();
 		}
 		return false; // 등록되지 않음
 	}
 
 	// 수정
-	public boolean updatdBoard(BoardVO board) {
+	public boolean updateBoard(BoardVO board) {
 		String sql = "update tbl_board " //
 				+ "set    title = ? " //
 				+ "      ,content = ? " //
@@ -122,6 +185,8 @@ public class BoardDAO extends DAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally { // 정상적으로 코드가 실행되었을 때도 실행 예외가 발생했을 때도 실행.. finally
+			disConnect();
 		}
 		return false; // 수정실패
 	}
@@ -129,18 +194,20 @@ public class BoardDAO extends DAO {
 	// 삭제
 	public boolean deleteBoard(int boardNo) {
 		String qry = "delete from tbl_board ";
-		qry += "where board_no = " + boardNo;
+		qry += "where board_no = ?";
 
 		try {
 			psmt = getConnect().prepareStatement(qry);
-			rs = psmt.executeQuery();
-			int r = psmt.executeUpdate(qry);
+			psmt.setInt(1, boardNo);
+			int r = psmt.executeUpdate();
 
 			if (r > 0) {
 				return true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally { // 정상적으로 코드가 실행되었을 때도 실행 예외가 발생했을 때도 실행.. finally
+			disConnect();
 		}
 		return false;
 

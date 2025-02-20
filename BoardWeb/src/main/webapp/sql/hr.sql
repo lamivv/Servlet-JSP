@@ -171,6 +171,58 @@ values (board_seq.nextval, '열심히', 'jsp를 공부합시다', 'user01');
 select board_seq.nextval -- 순차적으로 1씩 증가되는.. 그래서 중복되지 않는 값을 생성
 from dual; -- 더미테이블 구문의 규칙에 따라 만들기 위해서 사용하는..
 
+-- 수정
+update tbl_board
+set    title = 'test'
+      ,content = 'testing'
+where board_no = 22;
+
+insert into tbl_board
+select board_seq.nextval, title, content, writer, sysdate, 0
+from tbl_board;
+
+select count(1)
+from tbl_board;
+
 -- 조회
 select *
-from tbl_board;
+from tbl_board
+-- order by board_no
+;
+
+-- 조회2
+select tbl_b.*
+from (select rownum rn, tbl_a.* -- rownum : 가지고 온 데이터(from)에 순번을 붙이는 것
+      from (select board_no, title, content, writer, write_date, view_cnt
+            from tbl_board
+            order by board_no) tbl_a) tbl_b
+where tbl_b.rn >= (:page - 1)* 5 + 1 -- :page -> page라는 파라메타
+and   tbl_b.rn <= :page * 5;
+
+-- where tbl_b.rn >= 6
+-- and   tbl_b.rn <= 10;
+
+-- 회원관리 회원테이블(tbl_member): 아이디, 비밀번호, 이름, 권한(User, Admin)
+create table tbl_member (
+ member_id varchar2(20) primary key,
+ passwd    varchar2(20) not null,
+ member_name varchar2(100) not null,
+ responsibility varchar(10) default 'User' -- 권한 (User, Admin)
+);
+
+-- 테이블삭제
+drop table tbl_member;
+
+-- 회원 샘플 데이터
+insert into tbl_member (member_id, passwd, member_name)
+values('user01','1111','홍길동');
+insert into tbl_member (member_id, passwd, member_name)
+values('user02','1111','김치즈');
+insert into tbl_member (member_id, passwd, member_name)
+values('user03','1111','정망고');
+insert into tbl_member (member_id, passwd, member_name, responsibility)
+values('user99','1111','김땅콩', 'Admin');
+
+-- 회원 테이블 조회
+select *
+from tbl_member;
