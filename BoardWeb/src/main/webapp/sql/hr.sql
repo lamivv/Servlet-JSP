@@ -162,6 +162,9 @@ create table tbl_board (
  -- 시퀀스
 create sequence board_seq; 
 
+-- 테이블의 col 추가 (img의 파일이름을 넣어 놓을...)
+alter table tbl_board add img varchar(100);
+
 insert into tbl_board (board_no, title, content, writer)
 values (board_seq.nextval, '첫번째 글', '서블릿 재밌네요', 'user01');
 
@@ -201,6 +204,12 @@ and   tbl_b.rn <= :page * 5;
 
 -- where tbl_b.rn >= 6
 -- and   tbl_b.rn <= 10;
+
+-- 조회3
+select *
+from tbl_board
+where title like '%등록%'; -- %위치에 어떠한 값이 있더라도 록이라는 글자가 포함되어있다면 ...
+
 
 -- 회원관리 회원테이블(tbl_member): 아이디, 비밀번호, 이름, 권한(User, Admin)
 create table tbl_member (

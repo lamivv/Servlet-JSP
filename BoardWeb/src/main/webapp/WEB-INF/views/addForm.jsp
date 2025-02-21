@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="includes/header.jsp"></jsp:include>
-<%
+<!-- <//%
 	String logId = (String) session.getAttribute("loginId");
-%>
+%> -->
 <h3>글등록화면(addForm.jsp)</h3>
-<form action="addBoard.do">
+<form action="addBoard.do" method="post" enctype="multipart/form-data"> <!-- 파일을 추가할때는 enctype를 추가해주어야 한다 -->
 	<table class="table">
 		<tr>
 			<th>제목</th>
@@ -18,7 +19,12 @@
 		</tr>
 		<tr>
 			<th>작성자</th>
-			<td><input class="form-control" type="hidden" name="writer" value="<%=logId %>"><%=logId %></td>
+			<!-- <td><input class="form-control" type="hidden" name="writer" value="<//%=logId %>"><//%=logId %></td> -->
+			<td><input class="form-control" type="hidden" name="writer" value="${loginId }">${loginId}</td>
+		</tr>
+		<tr>
+			<th>이미지</th>
+			<td><input type="file" name="img" class="form-control"></td>
 		</tr>
 		<tr>
 			<td colspan="2" align="center">

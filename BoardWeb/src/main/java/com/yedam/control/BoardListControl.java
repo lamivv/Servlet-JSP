@@ -11,6 +11,7 @@ import com.yedam.PageVO;
 import com.yedam.dao.BoardDAO;
 import com.yedam.dao.Control;
 import com.yedam.vo.BoardVO;
+import com.yedam.vo.SearchVO;
 
 public class BoardListControl implements Control {
 
@@ -19,19 +20,30 @@ public class BoardListControl implements Control {
 		// boardList.do?page=1
 		String page = req.getParameter("page");
 		page = page == null ? "1" : page;
+		// boardList.do?searchCondition=T&keyword=연습
+		String sc = req.getParameter("searchCondition");
+		String kw = req.getParameter("keyword");
+		sc = sc == null ? "" : sc; // null값 처리
+		kw = kw == null ? "" : kw; // null값 처리
+		
+		// SearchVO : 파라미터
+		SearchVO search = new SearchVO(Integer.parseInt(page), sc, kw);
 		
 		String name = "홍길동";
 		// boardList.do -> (BoardListControl) -> boardList.jsp
 		req.setAttribute("msg", name);
 
 		BoardDAO bdao = new BoardDAO();
-		List<BoardVO> list = bdao.selectBoard(Integer.parseInt(page));
+		List<BoardVO> list = bdao.selectBoard(search);
 		req.setAttribute("list", list);
 
 		// 페이징
-		int totalCnt = bdao.getTotalCount();
+		int totalCnt = bdao.getTotalCount(search); //실제건수
 		PageVO paging = new PageVO(Integer.parseInt(page), totalCnt);
 		req.setAttribute("paging", paging);
+		// 페이징 -> searchCondition, keyword 전달
+		req.setAttribute("searchCondition", sc);
+		req.setAttribute("keyword", kw);
 		
 		// 요청재지정(url: boardList.do (boardList.jsp))
 		req.getRequestDispatcher("/WEB-INF/views/boardList.jsp").forward(req, resp); // 연결하고 싶은 페이지

@@ -1,35 +1,52 @@
-<%@page import="com.yedam.vo.BoardVO"%>
+<%@ page import="com.yedam.vo.BoardVO"%> <!-- 임포트 안해도 되어서 삭제해도 됨... -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!-- board.jsp -->
 <jsp:include page="includes/header.jsp"></jsp:include>
-<%
+<!-- <//%
 BoardVO board = (BoardVO) request.getAttribute("board");
 String msg = (String) request.getAttribute("msg");
 String logId = (String) session.getAttribute("loginId");
+%>  -->
 
-%>
+
+<!-- ${ "Expression Language"} // EL : 문자열을 표시할 수 있다 
+<p>BoardVO객체의 값 => ${board }</p>
+<p>String 객체의 값 => ${msg }</p>
+<p>String 객체의 값 => ${loginId }</p> -->
 <h3>상세화면(board.jsp)</h3>
 <form action="modifyForm.do">
-<input type="hidden" value="<%=board.getBoardNo()%>" name="bno">
+<input type="hidden" name="bno" value="${board.boardNo }">
+<!-- <input type="hidden" value="<//%=board.getBoardNo()%>" name="bno"> -->
 <table class="table">
 	<tr>
-		<th>글번호</th><td><%=board.getBoardNo() %></td> 
-		<th>조회수</th><td><%=board.getViewCnt() %></td>
+		<th>글번호</th><td><c:out value="${board.boardNo }"></c:out></td> 
+		<!-- <th>글번호</th><td><//%=board.getBoardNo() %></td> --> 
+		<th>조회수</th><td><c:out value="${board.viewCnt }"></c:out></td>
+		<!-- <th>조회수</th><td><//%=board.getViewCnt() %></td> -->
 	</tr>
 		<tr>
 	    <th>제목</th>
-		<td colspan="3"><%=board.getTitle() %></td>
+		<td colspan="3"><c:out value="${board.title }"></c:out></td>
+		<!-- <td colspan="3"><//%=board.getTitle() %></td> -->
 	</tr>
 	<tr>
 	    <th>내용</th>
-		<td colspan="3"><%=board.getContent() %></td>
+		<td colspan="3"><c:out value="${board.content }"></c:out></td>
+	</tr>
+	<tr>
+		<th>이미지</th>
+		<td colspan="3"><img width="250px" src="images/${board.img }"></td>
+		<!-- <td colspan="3"><//%=board.getContent() %></td> -->
 	</tr>
 	<tr>
 		<th>작성자</th>
-		<td><%=board.getWriter() %></td>
+		<td><c:out value="${board.writer }"></c:out></td>
+		<!-- <td><//%=board.getWriter() %></td> -->
 		<th>작성일시</th>
-		<td><%=board.getWriteDate() %></td>
+		<td><c:out value="${board.writeDate }"></c:out></td>
+		<!-- <td><//=board.getWriteDate() %></td> -->
 	</tr>
 	<tr>
 	<td colspan="4" align ="center">
@@ -37,14 +54,18 @@ String logId = (String) session.getAttribute("loginId");
 		<button class="btn btn-danger" type="button">삭제</button>
 	</td>
 	<tr>
-		<%if (msg != null) {%>
-		<td colspan="4" align ="center"><span style="color:red"><%=msg %></span></td>
-		<%} %>
+		<c:if test="${msg != null }">
+			<td colspan="4" align ="center"><span style="color:red">${msg }</span></td>
+		</c:if>
+		<!-- <//%if (msg != null) {%>  -->
+		<!-- <td colspan="4" align ="center"><span style="color:red"><//%=msg %></span></td> -->
+		<!-- <//%} %> -->
 	</tr>
 </table>
 </form>
 <script>
-	let logid ="<%=logId%>"; // 자바의 변수값을 script에서 사용 ""<< 중요
+	let logid ="${loginId}"; // 자바의 변수값을 script에서 사용 ""<< 중요
+	//let logid ="<//%=logId%>"; // 자바의 변수값을 script에서 사용 ""<< 중요
 	// 삭제버튼에 클릭이벤트 등록
 	document.querySelector('button.btn-danger').addEventListener('click',function(e) {
 		let writer = document.querySelector('table.table>tbody>tr:nth-of-type(4)>td').innerHTML; // 글 작성자

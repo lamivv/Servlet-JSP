@@ -18,4 +18,5 @@ public class BoardVO { // tbl_board
 	private String writer; // writer
 	private Date writeDate; // write_date
 	private int viewCnt; // view_cnt
+	private String img;
 }
