@@ -3,7 +3,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!-- board.jsp -->
-<jsp:include page="includes/header.jsp"></jsp:include>
+
 <!-- <//%
 BoardVO board = (BoardVO) request.getAttribute("board");
 String msg = (String) request.getAttribute("msg");
@@ -78,4 +78,3 @@ String logId = (String) session.getAttribute("loginId");
 		}
 	});
 </script>
-<jsp:include page="includes/footer.jsp"></jsp:include>

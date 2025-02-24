@@ -8,12 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.yedam.dao.Control;
 
-public class AddFormControl implements Control {
+public class MemberListControl implements Control {
 
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 글등록화면 요청재지정
-		req.getRequestDispatcher("board/addForm.tiles").forward(req, resp);
+		req.getRequestDispatcher("admin/memberList.tiles").forward(req, resp);
 	}
 
 }

@@ -8,7 +8,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!-- boardList.jsp -->
 <!--지시자 : page라는 지시자 값으로 추가적인 정보를 담음-->
-<jsp:include page="includes/header.jsp"></jsp:include>
 <!-- 액션태그: 현재 페이지의 해당 위치에 다른 페이지를 불러들일 수 있는 기능 -->
 <!-- html주석문 -->
 <!-- <//%
@@ -154,4 +153,3 @@ ${paging } -->
 	</ul>
 </nav>
 <!-- paging 종료지점 -->
-<jsp:include page="includes/footer.jsp"></jsp:include>

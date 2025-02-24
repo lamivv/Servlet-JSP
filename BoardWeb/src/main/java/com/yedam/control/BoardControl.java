@@ -24,7 +24,7 @@ public class BoardControl implements Control {
 		
 		// 요청정보의 attribute활용
 		req.setAttribute("board", board); 
-		req.getRequestDispatcher("/WEB-INF/views/board.jsp").forward(req, resp); // 연결하고 싶은 페이지
+		req.getRequestDispatcher("board/board.tiles").forward(req, resp); // 연결하고 싶은 페이지
 		// 현재보여주는 페이지가 url에 boardList를 치면 처리하는 결과를 내가 원하는 jsp페이지로 전달
 	}
 
