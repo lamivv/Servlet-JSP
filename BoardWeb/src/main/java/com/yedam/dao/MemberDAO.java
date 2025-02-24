@@ -8,6 +8,27 @@ import com.yedam.vo.MemberVO;
 
 public class MemberDAO extends DAO {
 	
+	// 삭제
+	public boolean isOk(String mid) {
+		String sql = "delete from tbl_member ";
+		sql += "where member_id = ?";
+		
+		try {
+			psmt = getConnect().prepareStatement(sql);
+			psmt.setString(1, mid);
+			int r = psmt.executeUpdate();
+
+			if (r > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
+	// 회원목록
 	public List<MemberVO> members() {
 		String sql = "select member_id " //
 				+ "         ,passwd " //
