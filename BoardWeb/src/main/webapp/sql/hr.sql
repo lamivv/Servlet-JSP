@@ -235,3 +235,47 @@ values('user99','1111','김땅콩', 'Admin');
 -- 회원 테이블 조회
 select *
 from tbl_member;
+
+-- 댓글 테이블 생성
+-- tbl_reply(댓글번호, 댓글내용, 작성자, 원본글번호, 작성일시)
+create table tbl_reply (
+  reply_no number -- 댓글번호(시퀀스)
+ ,reply    varchar2(500) not null -- 댓글내용
+ ,replyer  varchar2(30) not null -- 작성자
+ ,board_no number not null -- 원본글번호
+ ,reply_date date default sysdate -- 작성일시
+);
+
+create sequence reply_seq;
+
+select reply_seq.nextval from dual;
+
+
+-- 185번 글에 대한 댓글.
+insert into tbl_reply (reply_no, reply, replyer, board_no)
+values(reply_seq.nextval, '185번에 댓글입니다', 'user01', 185);
+insert into tbl_reply (reply_no, reply, replyer, board_no)
+values(reply_seq.nextval, '이미지등록 잘되네요', 'user01', 185);
+
+insert into tbl_reply (reply_no, reply, replyer, board_no)
+values(reply_seq.nextval, '184번에 댓글입니다', 'user01', 184);
+insert into tbl_reply (reply_no, reply, replyer, board_no)
+values(reply_seq.nextval, '이미지등록 잘되네요', 'user01', 184);
+
+-- n번째 게시글에 대한 댓글 조회
+select reply_no
+      ,reply
+      ,replyer
+      ,reply_date
+from tbl_reply
+where board_no = 185;
+
+-- 댓글번호n을 조회
+select reply_no
+      ,reply
+      ,replyer
+      ,reply_date
+from tbl_reply
+where reply_no = 13;
+
+

@@ -35,11 +35,15 @@ String logId = (String) session.getAttribute("loginId");
 	    <th>내용</th>
 		<td colspan="3"><c:out value="${board.content }"></c:out></td>
 	</tr>
-	<tr>
-		<th>이미지</th>
-		<td colspan="3"><img width="250px" src="images/${board.img }"></td>
-		<!-- <td colspan="3"><//%=board.getContent() %></td> -->
-	</tr>
+	<c:if test="${!empty board.img }"> <!-- 이미지가 있으면 출력 없으면 출력하지않음 -->
+		<tr>
+			<th>이미지</th>
+			<td colspan="3">
+				<img width="250px" src="images/${board.img }">
+			</td>
+			<!-- <td colspan="3"><//%=board.getContent() %></td> -->
+		</tr>
+	</c:if>
 	<tr>
 		<th>작성자</th>
 		<td><c:out value="${board.writer }"></c:out></td>
@@ -63,8 +67,48 @@ String logId = (String) session.getAttribute("loginId");
 	</tr>
 </table>
 </form>
+
+
+<style>
+	.reply .content ul {
+		list-style-type: none;
+	}
+	.reply .content span {
+		display: inline-block;
+	}
+</style>
+
+<!-- 댓글관련 -->
+<div class="container reply">
+	<!-- 댓글등록 -->
+	<div class="header">
+		<input type="text" id="reply" class="col-sm-9">
+		<button id="addReply">댓글등록</button>
+	</div>
+	
+	<!-- 댓글목록 -->
+	<div class="content">
+	<ul>
+		<li>
+			<span class="col-sm-2">글번호</span>
+			<span class="col-sm-5">글내용</span>
+			<span class="col-sm-2">작성자</span>
+			<span class="col-sm-2">삭제</span>
+		</li>
+		<!-- board_No에 맞는 댓글 목록 추가되는 곳 -->
+	</ul>
+	</div>
+	
+	<!-- 댓글페이징 -->
+	<div class="footer">
+	</div>
+
+</div>
+
 <script>
 	let logid ="${loginId}"; // 자바의 변수값을 script에서 사용 ""<< 중요
+	const bno = "${board.boardNo }"; 
+	console.log(bno);
 	//let logid ="<//%=logId%>"; // 자바의 변수값을 script에서 사용 ""<< 중요
 	// 삭제버튼에 클릭이벤트 등록
 	document.querySelector('button.btn-danger').addEventListener('click',function(e) {
@@ -78,3 +122,5 @@ String logId = (String) session.getAttribute("loginId");
 		}
 	});
 </script>
+<script src="js/replyService.js"></script>
+<script src="js/reply.js"></script>

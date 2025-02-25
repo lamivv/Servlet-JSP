@@ -8,8 +8,30 @@ import com.yedam.vo.MemberVO;
 
 public class MemberDAO extends DAO {
 	
+	// 등록
+	public boolean insertMember(MemberVO member) {
+		String sql = "insert into tbl_member (member_id, passwd, member_name) ";
+		sql += " values(?,?,?) ";
+		try {
+			psmt = getConnect().prepareStatement(sql);
+			psmt.setString(1, member.getMemberId());
+			psmt.setString(2, member.getPasswd());
+			psmt.setString(3, member.getMamberName());
+			
+			int r = psmt.executeUpdate();
+			
+			if (r == 1) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
 	// 삭제
-	public boolean isOk(String mid) {
+	public boolean deleteMember(String mid) {
 		String sql = "delete from tbl_member ";
 		sql += "where member_id = ?";
 		
