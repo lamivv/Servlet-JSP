@@ -48,32 +48,30 @@ document.querySelector('#addMember').addEventListener('click', function(e) {
 	let id = document.querySelector('input[name="mid"]').value;
 	let pw = document.querySelector('input[name="mpw"]').value;
 	let name = document.querySelector('input[name="mname"]').value;
-	
-	if (!id || !pw || !name){
+
+	if (!id || !pw || !name) {
 		alert('필수입력값을 입력하세요');
 		return;
 	}
-	
-	if (!confirm("추가하겠습니까?")){
+
+	if (!confirm("추가하겠습니까?")) {
 		return;
 	}
-	
+
 	// 서블릿 호출
 	fetch("addMember.do?mid=" + id + "&mpw=" + pw + "&mname=" + name)
+		.then(result => result.json())
 		.then(function(result) {
-			return result.json();
-		})
-		.then(function(result){
-			if(result.retCond == 'OK'){
+			if (result.retCode == "OK") {
 				const target = document.querySelector('#list');
-				const html = `<tr id=tr_${member.memberId}>
-							    <td>${member.memberId}</td>
-								<td>${member.passwd}</td>
-								<td>${member.memberName}</td>
-								<td>${member.responsibility}</td>
-								<td><button onclick="deleteRow('${member.memberId}')" class="btn btn-danger">삭제</button></td>
+				const html = `<tr id=tr_${id}>
+							    <td>${id}</td>
+								<td>${pw}</td>
+								<td>${name}</td>
+								<td>User</td>
+								<td><button onclick="deleteRow('${id}')" class="btn btn-danger">삭제</button></td>
 							</tr>`;
-			target.insertAdjacentHTML('beforeend', html);
+				target.insertAdjacentHTML('beforeend', html);
 			} else {
 				alert('error');
 			}

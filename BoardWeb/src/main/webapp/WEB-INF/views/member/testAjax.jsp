@@ -33,9 +33,9 @@
 			<th>권한</th>
 			<th>삭제</th>
 		</tr>
+	</thead>
 	<tbody id="list">
 		<!-- 회원목록 나오는 곳  -->
 	</tbody>
-	</thead>
 </table>
 <script src="js/member.js"></script>

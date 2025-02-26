@@ -246,6 +246,9 @@ create table tbl_reply (
  ,reply_date date default sysdate -- 작성일시
 );
 
+-- primary key 제약조건 추가( 제약조건의 이름 : pk_reply ) (reply_no 속성에 primary key 제약조건을 추가)
+alter table tbl_reply add constraint pk_reply primary key (reply_no);
+ 
 create sequence reply_seq;
 
 select reply_seq.nextval from dual;
@@ -253,14 +256,24 @@ select reply_seq.nextval from dual;
 
 -- 185번 글에 대한 댓글.
 insert into tbl_reply (reply_no, reply, replyer, board_no)
-values(reply_seq.nextval, '185번에 댓글입니다', 'user01', 185);
+values(reply_seq.nextval, '언럭키자나..', 'user50', 185);
 insert into tbl_reply (reply_no, reply, replyer, board_no)
-values(reply_seq.nextval, '이미지등록 잘되네요', 'user01', 185);
+values(reply_seq.nextval, '아냐 햅삐해', 'user51', 185);
 
 insert into tbl_reply (reply_no, reply, replyer, board_no)
 values(reply_seq.nextval, '184번에 댓글입니다', 'user01', 184);
 insert into tbl_reply (reply_no, reply, replyer, board_no)
 values(reply_seq.nextval, '이미지등록 잘되네요', 'user01', 184);
+
+-- 반복생성
+insert into tbl_reply 
+select reply_seq.nextval
+      ,reply
+      ,replyer
+      ,board_no
+      ,sysdate
+from tbl_reply
+where board_no = 185;
 
 -- n번째 게시글에 대한 댓글 조회
 select reply_no
@@ -278,4 +291,38 @@ select reply_no
 from tbl_reply
 where reply_no = 13;
 
+-- 페이징을 위한 댓글 조회
+-- 인덱스(pk_reply)기준으로 조회
+-- tbl_reply라는 테이블에 r이라는 별칭을 주고 r테이블의 pk_reply를 따라서 INDEX를 활용해서 데이터를 가져오세요
+-- 인덱스를 활용하면 오름차순으로 정렬됨..
+-- 역순으로 하고싶으면 INDEX_DESC
+select /*+ INDEX_DESC (r pk_reply) */
+       reply_no, reply, replyer, board_no, reply_date
+from tbl_reply r
+where board_no = 185;
 
+-- 185번에 대한 데이터를 모두 가져와서 그 다음 각각의 값을 reply_no를 기준으로 다시 정렬(더 시간이 오래 걸림)
+select reply_no, reply, replyer, board_no, reply_date
+from tbl_reply r
+where board_no = 185
+order by reply_no;
+
+-- 페이지에 따른 댓글 검색
+select tbl_a.* --tbl_a의 모든 컬럼
+from (select /*+ INDEX_DESC (r pk_reply) */
+             rownum rn, reply_no, reply, replyer, board_no, reply_date
+      from tbl_reply r
+      where board_no = :board_no) tbl_a
+where tbl_a.rn > (:page - 1) * 5
+and   tbl_a.rn <= :page * 5;
+      
+      
+-- hr계정 사원정보 Employees
+select emp.department_id, dept.department_name, count(1) cnt
+from employees emp
+join departments dept
+on   emp.department_id = dept.department_id
+group by emp.department_id, dept.department_name;
+
+select *
+from departments;

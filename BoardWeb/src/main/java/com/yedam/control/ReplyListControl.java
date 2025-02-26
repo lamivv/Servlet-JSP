@@ -19,12 +19,13 @@ public class ReplyListControl implements Control {
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/json;charset=utf-8");
 		
-		// 원본 글 번호
+		// 원본 글 번호, 페이지
 		String bno = req.getParameter("bno");
+		String page = req.getParameter("page");
 		
 		// DAO활용
 		ReplyDAO rdao = new ReplyDAO();
-		List<ReplyVO> list = rdao.replyList(Integer.parseInt(bno));
+		List<ReplyVO> list = rdao.replyList(Integer.parseInt(bno),Integer.parseInt(page));
 		
 		// gson활용해서 json을 쉽게 ..
 		//Gson gson = new GsonBuilder().create();
