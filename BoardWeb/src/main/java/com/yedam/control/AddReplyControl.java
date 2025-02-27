@@ -8,10 +8,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.session.SqlSession;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.yedam.common.DataSource;
 import com.yedam.dao.Control;
 import com.yedam.dao.ReplyDAO;
+import com.yedam.mapper.ReplyMapper;
 import com.yedam.vo.ReplyVO;
 
 public class AddReplyControl implements Control {
@@ -33,15 +37,19 @@ public class AddReplyControl implements Control {
 		rvo.setReplyer(replyer);
 		
 		// DB반영
-		ReplyDAO rdao = new ReplyDAO();
-		boolean run = rdao.insertReply(rvo);
+//		ReplyDAO rdao = new ReplyDAO();
+		SqlSession sqlSession = DataSource.getInstance().openSession();
+		ReplyMapper mapper = sqlSession.getMapper(ReplyMapper.class);
+		
+		int run = mapper.insertReply(rvo);
 		
 		// 결과값
 		Map<String, Object> result = new HashMap<>();
 		
-		if (run) {
+		if (run == 1) {
 			// {"retCode": "OK"}
 			// resp.getWriter().print("{\"retCode\": \"OK\"}");
+			sqlSession.commit(true); // 커밋
 			result.put("retCode", "OK");
 			result.put("retVal", rvo);
 		} else {

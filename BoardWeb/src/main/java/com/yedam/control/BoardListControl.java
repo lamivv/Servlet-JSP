@@ -7,11 +7,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.yedam.PageVO;
-import com.yedam.dao.BoardDAO;
+import org.apache.ibatis.session.SqlSession;
+
+import com.yedam.common.DataSource;
+import com.yedam.common.PageVO;
+import com.yedam.common.SearchVO;
 import com.yedam.dao.Control;
+import com.yedam.mapper.BoardMapper;
 import com.yedam.vo.BoardVO;
-import com.yedam.vo.SearchVO;
 
 public class BoardListControl implements Control {
 
@@ -33,12 +36,18 @@ public class BoardListControl implements Control {
 		// boardList.do -> (BoardListControl) -> boardList.jsp
 		req.setAttribute("msg", name);
 
-		BoardDAO bdao = new BoardDAO();
-		List<BoardVO> list = bdao.selectBoard(search);
+//		BoardDAO bdao = new BoardDAO();
+//		List<BoardVO> list = bdao.selectBoard(search);
+		SqlSession sqlSession = DataSource.getInstance().openSession();
+		BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
+		List<BoardVO> list = mapper.selectBoard(search);
+				
 		req.setAttribute("list", list);
 
 		// 페이징
-		int totalCnt = bdao.getTotalCount(search); //실제건수
+//		int totalCnt = bdao.getTotalCount(search); //실제건수
+		int totalCnt = mapper.getTotalCount(search);
+		
 		PageVO paging = new PageVO(Integer.parseInt(page), totalCnt);
 		req.setAttribute("paging", paging);
 		// 페이징 -> searchCondition, keyword 전달

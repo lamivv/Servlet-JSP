@@ -7,8 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
+
+import com.yedam.common.DataSource;
 import com.yedam.dao.BoardDAO;
 import com.yedam.dao.Control;
+import com.yedam.mapper.BoardMapper;
 import com.yedam.vo.BoardVO;
 
 public class ModifyControl implements Control {
@@ -18,9 +22,13 @@ public class ModifyControl implements Control {
 		// 수정화면 open
 		String bno = req.getParameter("bno");
 
-		BoardDAO bdao = new BoardDAO();
+//		BoardDAO bdao = new BoardDAO();
 		// 먼저 상세목록을 보여준 후 조회수 업데이트 == 클릭하면 조회수 증가하기 전의 조회수가 나온다.
-		BoardVO board = bdao.getboard(Integer.parseInt(bno)); // 문자열 "14" -> int i4
+		SqlSession sqlSession = DataSource.getInstance().openSession();
+		BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
+		
+		
+		BoardVO board = mapper.getboard(Integer.parseInt(bno)); // 문자열 "14" -> int i4
 		
 		// 세션 아이디와 글작성자 아이디 비교
 		HttpSession session = req.getSession();

@@ -1,4 +1,4 @@
-package com.yedam.vo;
+package com.yedam.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

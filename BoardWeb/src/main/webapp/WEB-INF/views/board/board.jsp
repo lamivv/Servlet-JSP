@@ -1,5 +1,3 @@
-<%@ page import="com.yedam.vo.BoardVO"%>
-<!-- 임포트 안해도 되어서 삭제해도 됨... -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>

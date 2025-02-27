@@ -7,10 +7,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.session.SqlSession;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.yedam.common.DataSource;
 import com.yedam.dao.Control;
-import com.yedam.dao.ReplyDAO;
+import com.yedam.mapper.ReplyMapper;
 import com.yedam.vo.ReplyVO;
 
 public class ReplyListControl implements Control {
@@ -24,8 +27,10 @@ public class ReplyListControl implements Control {
 		String page = req.getParameter("page");
 		
 		// DAO활용
-		ReplyDAO rdao = new ReplyDAO();
-		List<ReplyVO> list = rdao.replyList(Integer.parseInt(bno),Integer.parseInt(page));
+//		ReplyDAO rdao = new ReplyDAO();
+		SqlSession sqlSession = DataSource.getInstance().openSession();
+		ReplyMapper mapper = sqlSession.getMapper(ReplyMapper.class);
+		List<ReplyVO> list = mapper.replyList(Integer.parseInt(bno),Integer.parseInt(page));
 		
 		// gson활용해서 json을 쉽게 ..
 		//Gson gson = new GsonBuilder().create();

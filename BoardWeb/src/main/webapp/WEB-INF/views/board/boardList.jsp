@@ -1,7 +1,3 @@
-<%@page import="com.yedam.PageVO"%>
-<%@page import="com.yedam.vo.BoardVO"%>
-<%@page import="com.yedam.dao.BoardDAO"%>
-<%@page import="com.yedam.vo.Employee"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>

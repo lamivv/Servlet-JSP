@@ -4,8 +4,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.yedam.common.SearchVO;
 import com.yedam.vo.BoardVO;
-import com.yedam.vo.SearchVO;
 
 /*
  추가, 조회, 수정, 삭제
