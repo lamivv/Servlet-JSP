@@ -190,7 +190,7 @@ from tbl_board;
 -- 조회
 select *
 from tbl_board
--- order by board_no
+order by board_no desc
 ;
 
 -- 조회2
@@ -326,3 +326,26 @@ group by emp.department_id, dept.department_name;
 
 select *
 from departments;
+
+-- full캘린더 테이블 생성
+create table tbl_calendar (
+ title varchar2(100) not null,
+ start_date varchar2(20) not null,
+ end_date varchar2(20)
+ );
+ 
+-- full캘린더 기초데이터 생성
+ insert into tbl_calendar (title, start_date, end_date)
+ values('여름휴가', '2025-08-01', '2025-08-10');
+ insert into tbl_calendar (title, start_date, end_date)
+ values('제주도출장', '2025-02-10', '2025-02-14');
+ insert into tbl_calendar (title, start_date, end_date)
+ values('기관평가', '2025-02-16', null);
+ 
+ insert into tbl_calendar (title, start_date, end_date)
+ values('간담회', '2025-02-28T18:00:00', '2025-02-28T21:00:00');
+ 
+-- full 캘린더 일정 조회
+ select *
+ from tbl_calendar;
+ 
