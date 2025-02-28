@@ -3,6 +3,7 @@
  */
 console.log(svc.showName());
 let page = 1; // 페이징
+let onePageLength = 0;
 
 // 댓글
 function makeReply(reply = {}) { // 객체라는 의미
@@ -27,6 +28,9 @@ function deleteRow(rno) {
 		function(result) {
 			if (result.retCode == 'OK') {
 				document.querySelector('li[data-id="' + rno + '"]').remove();
+				if (onePageLength == 1 && page != 1) {
+					page = page - 1;
+				}
 				showPageList();
 				showPagingList();
 			}
@@ -45,6 +49,7 @@ function showPageList() {
 				elem.remove();
 			});
 			let resultAry = result;
+			onePageLength = resultAry.length;
 			resultAry.forEach(function(reply) {
 				let target = document.querySelector('.reply>.content>ul');
 				target.insertAdjacentHTML('beforeend', makeReply(reply));

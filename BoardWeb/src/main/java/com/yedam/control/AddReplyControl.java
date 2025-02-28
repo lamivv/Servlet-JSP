@@ -1,6 +1,8 @@
 package com.yedam.control;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +16,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.yedam.common.DataSource;
 import com.yedam.dao.Control;
-import com.yedam.dao.ReplyDAO;
 import com.yedam.mapper.ReplyMapper;
 import com.yedam.vo.ReplyVO;
 
@@ -35,6 +36,13 @@ public class AddReplyControl implements Control {
 		rvo.setBoardNo(Integer.parseInt(bno));
 		rvo.setReply(reply);
 		rvo.setReplyer(replyer);
+		rvo.setReplyDate(new Date()); 
+		// Fri Feb 28 12:52:08 KST 2025
+		// 	Feb 28, 2025, 2:17:26 PM
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("M dd, yyyy, hh:mm:ss a");
+		System.out.println(sdf.format(new Date()));
+		
 		
 		// DB반영
 //		ReplyDAO rdao = new ReplyDAO();

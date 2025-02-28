@@ -86,26 +86,52 @@ String logId = (String) session.getAttribute("loginId");
 	<div class="header">
 		<input type="text" id="reply" class="col-sm-9">
 		<button id="addReply">댓글등록</button>
+		<button id="button">댓글삭제</button>
 	</div>
 
 	<!-- 댓글목록 -->
+	<!--  
 	<div class="content">
 		<ul>
 			<li><span class="col-sm-2">글번호</span> <span class="col-sm-5">글내용</span>
 				<span class="col-sm-2">작성자</span> <span class="col-sm-2">삭제</span></li>
+	 -->
 			<!-- board_No에 맞는 댓글 목록 추가되는 곳 -->
+	
+	<!-- 댓글페이징 -->
+	<!-- 
 		</ul>
 	</div>
 
-	<!-- 댓글페이징 -->
 	<div class="footer">
 		<nav aria-label="Page navigation example">
-			<ul class="pagination pagination-sm justify-content-center">
+			<ul class="pagination pagination-sm justify-content-center"> 
+	-->
 				<!-- page a태그 생성 -->
+	<!-- 
 			</ul>
 		</nav>
 	</div>
-
+	 -->
+	 <!--  데이터 테이블 활용 -->
+	 <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>댓글번호</th>
+                <th>내용</th>
+                <th>작성자</th>
+                <th>작성일시</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>댓글번호</th>
+                <th>내용</th>
+                <th>작성자</th>
+                <th>작성일시</th>
+            </tr>
+        </tfoot>
+    </table>
 </div>
 
 <script>
@@ -128,4 +154,8 @@ String logId = (String) session.getAttribute("loginId");
 			});
 </script>
 <script src="js/replyService.js"></script>
-<script src="js/reply.js"></script>
+<!-- <script src="js/reply.js"></script> -->
+<link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css">
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+<script src="js/reply_dt.js"></script>
