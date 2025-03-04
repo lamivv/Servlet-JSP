@@ -4,6 +4,13 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.mapper.ReplyMapper">
 
+	<delete id="deleteEvent">
+		delete from tbl_calendar
+		where title = #{title}
+		and start_date = #{start}
+		and end_date = #{end}
+	</delete>
+
 	<insert id="insertEvent">
 		insert into tbl_calendar(title, start_date, end_date)
 		values(#{title},#{start},#{end})
@@ -30,9 +37,11 @@
 	<select id="replyList" parameterType="int">
 		select tbl_a.*
 		from (select /*+ INDEX_DESC (r pk_reply) */
-		rownum rn, reply_no, reply, replyer, board_no, reply_date
+		rownum rn,
+		reply_no, reply, replyer, board_no, reply_date
 		from tbl_reply r
-		where board_no = #{boardNo}) tbl_a
+		where
+		board_no = #{boardNo}) tbl_a
 		where tbl_a.rn > (#{page} - 1) * 5
 		<![CDATA[
 		and   tbl_a.rn <= #{page} * 5

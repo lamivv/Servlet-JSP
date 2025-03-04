@@ -26,4 +26,6 @@ public interface ReplyMapper {
 	public List<Map<String, Object>> fullData();
 	
 	public int insertEvent(@Param("title") String title, @Param("start") String start,@Param("end") String end);
+	
+	public int deleteEvent(@Param("title") String title, @Param("start") String start,@Param("end") String end);
 }
